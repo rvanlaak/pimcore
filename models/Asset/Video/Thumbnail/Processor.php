@@ -196,8 +196,13 @@ class Processor
     {
         $instance = new self();
         $instance->setProcessId($processId);
-
         $instanceItem = TmpStore::get($instance->getJobStoreId($processId));
+
+
+        if (!$instanceItem) {
+            Logger::error('Video Processor: No job found for processId ' . $processId);
+            return;
+        }
         /**
          * @var self $instance
          */
@@ -298,7 +303,7 @@ class Processor
 
     public function save(): bool
     {
-        TmpStore::add($this->getJobStoreId(), $this, 'video-job');
+        //TmpStore::add($this->getJobStoreId(), $this, 'video-job');
 
         return true;
     }
